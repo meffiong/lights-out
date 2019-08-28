@@ -6,4 +6,5 @@ html{ background: #292929; }
   align-items: center;
   justify-content: center;
   height: 100vh;
+  padding: 10px;
 }
