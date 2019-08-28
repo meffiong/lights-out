@@ -18,6 +18,7 @@ class Board extends Component {
         }
     }
 
+    // Array of 'true' and 'false'
     createBoard(){
         let board = []
         for(let y = 0; y < this.props.nrows; y++){
@@ -34,7 +35,7 @@ class Board extends Component {
         // console.log('Flipping', coord)
         let {nrows, ncols} = this.props;
         let {board} = this.state;
-        let [x,y] = coord.split("-").map(Number);
+        let [x,y] = coord.split("-").map(Number); //Number is a function
 
         function flipCell(y,x){
             if(x >= 0 && x < ncols && y >= 0 && y < nrows){
@@ -49,11 +50,24 @@ class Board extends Component {
         flipCell(y-1,x)
         flipCell(y+1,x)
         
-        let hasWon = false;
-        this.setState({board, hasWon})
+        // let hasWon = board.every(row => row.every(cell => console.log(!cell) ));
+        let hasWon = board.every(row => row.every(cell => !cell));
+        
+        this.setState({board:board, hasWon:hasWon})
     }
 
     render() {
+        if(this.state.hasWon){
+            return (
+                <div className="Board-title">
+                    <div className="winner">
+                        <span className="neon-orange">YOU</span>
+                        <span className="neon-blue">WIN!</span>
+                    </div>
+                </div>
+                )
+        }
+
         const tblboard = [];
         for(let y = 0; y < this.props.nrows;y++){
             let row = []
@@ -64,11 +78,17 @@ class Board extends Component {
         tblboard.push(<tr key={y}>{row}</tr>)
         }
         return (
-            <table className="Board">
-                <tbody>
-                    {tblboard}
-                </tbody>  
-            </table>
+            <div>
+                <div className="Board-title">
+                    <div className="neon-orange">Lights</div>
+                    <div className="neon-blue">Out</div>
+                </div>
+                <table className="Board">
+                    <tbody>
+                        {tblboard}
+                    </tbody>  
+                </table>
+            </div>
         )
     }
 }
